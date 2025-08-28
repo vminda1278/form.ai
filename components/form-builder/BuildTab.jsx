@@ -1,10 +1,8 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { CreateForm } from "@/components/builder/Form"
+
 import {
   Type,
   FileText,
@@ -13,8 +11,6 @@ import {
   MousePointer,
   ChevronUp,
   ChevronDown,
-  Plus,
-  Trash2,
   Settings,
 } from "lucide-react"
 
@@ -48,191 +44,17 @@ export function BuildTab({
         </div>
       )
     }
-
     const { type, properties } = selectedComponent
 
-    return (
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="font-medium">Properties</h3>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => removeComponent(selectedComponent.id)}
-            className="text-red-600 hover:text-red-700"
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
-        </div>
+    const form = {
+        'body': [
+            { type: 'FTTitle',  field:'form_title', title: 'Financial Documents', subtitle: 'Bank transaction statement and other financial documents'},  
+            { type: 'FTButton', title: 'Submit', field: 'submit_button'}
+        ],
+    }
+    return CreateForm({'formJSON': form})
+    console.log("Rendering properties for:", selectedComponent)
 
-        {type === "title" && (
-          <>
-            <div className="space-y-2">
-              <Label>Title</Label>
-              <Input
-                value={properties.title}
-                onChange={(e) => updateComponentProperty(selectedComponent.id, "title", e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Subtitle</Label>
-              <Input
-                value={properties.subtitle}
-                onChange={(e) => updateComponentProperty(selectedComponent.id, "subtitle", e.target.value)}
-              />
-            </div>
-          </>
-        )}
-
-        {(type === "text" || type === "select" || type === "textarea") && (
-          <>
-            <div className="space-y-2">
-              <Label>Label</Label>
-              <Input
-                value={properties.label}
-                onChange={(e) => updateComponentProperty(selectedComponent.id, "label", e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Required</Label>
-              <Select
-                value={properties.required ? "true" : "false"}
-                onValueChange={(value) => updateComponentProperty(selectedComponent.id, "required", value === "true")}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="false">No</SelectItem>
-                  <SelectItem value="true">Yes</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label>Help Text</Label>
-              <Input
-                value={properties.helpText}
-                onChange={(e) => updateComponentProperty(selectedComponent.id, "helpText", e.target.value)}
-                placeholder="Optional help text"
-              />
-            </div>
-          </>
-        )}
-
-        {(type === "text" || type === "textarea") && (
-          <div className="space-y-2">
-            <Label>Placeholder</Label>
-            <Input
-              value={properties.placeholder}
-              onChange={(e) => updateComponentProperty(selectedComponent.id, "placeholder", e.target.value)}
-            />
-          </div>
-        )}
-
-        {type === "textarea" && (
-          <div className="space-y-2">
-            <Label>Rows</Label>
-            <Select
-              value={properties.rows.toString()}
-              onValueChange={(value) => updateComponentProperty(selectedComponent.id, "rows", Number.parseInt(value))}
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="2">2</SelectItem>
-                <SelectItem value="3">3</SelectItem>
-                <SelectItem value="4">4</SelectItem>
-                <SelectItem value="5">5</SelectItem>
-                <SelectItem value="6">6</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        )}
-
-        {type === "select" && (
-          <div className="space-y-2">
-            <Label>Options</Label>
-            {properties.options.map((option, index) => (
-              <div key={index} className="flex gap-2">
-                <Input
-                  value={option}
-                  onChange={(e) => {
-                    const newOptions = [...properties.options]
-                    newOptions[index] = e.target.value
-                    updateComponentProperty(selectedComponent.id, "options", newOptions)
-                  }}
-                />
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    const newOptions = properties.options.filter((_, i) => i !== index)
-                    updateComponentProperty(selectedComponent.id, "options", newOptions)
-                  }}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            ))}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                const newOptions = [...properties.options, `Option ${properties.options.length + 1}`]
-                updateComponentProperty(selectedComponent.id, "options", newOptions)
-              }}
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Add Option
-            </Button>
-          </div>
-        )}
-
-        {type === "button" && (
-          <>
-            <div className="space-y-2">
-              <Label>Button Text</Label>
-              <Input
-                value={properties.text}
-                onChange={(e) => updateComponentProperty(selectedComponent.id, "text", e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Button Type</Label>
-              <Select
-                value={properties.type}
-                onValueChange={(value) => updateComponentProperty(selectedComponent.id, "type", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="submit">Submit</SelectItem>
-                  <SelectItem value="button">Button</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label>Button Style</Label>
-              <Select
-                value={properties.variant}
-                onValueChange={(value) => updateComponentProperty(selectedComponent.id, "variant", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="default">Default</SelectItem>
-                  <SelectItem value="secondary">Secondary</SelectItem>
-                  <SelectItem value="outline">Outline</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </>
-        )}
-      </div>
-    )
   }
 
   return (

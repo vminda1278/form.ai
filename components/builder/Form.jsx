@@ -1,8 +1,7 @@
 import React from 'react';
 import { useState, useContext, useEffect } from 'react';
-import { PaperClipIcon, DocumentIcon, PhotoIcon } from '@heroicons/react/20/solid'
-import { InputValidator } from '../helper/InputValidator'
-import { classNames } from './Helper'
+import { InputValidator } from '@/lib/input_validator';
+import { classNames } from '@/lib/helper'
 
 const CreateForm = ({ formJSON, isPreLoginForm = false, stack = 'vertical', dataSetter, ...otherProps }) => {
   //console.log('Other Props', otherProps)
@@ -12,18 +11,11 @@ const CreateForm = ({ formJSON, isPreLoginForm = false, stack = 'vertical', data
   const [imageUploaded, setImageUploaded] = useState(false)
      
   const [errors, setErrors] = useState({});
-  const [submissionError, setSubmissionError] = useState([]);
   const [success, showSuccess] = useState(false);
   const [selectData, setSelectData] = useState({});
   const [httpLoading, setHttpLoading] = useState(false);
-  const authContext = useContext(AuthContext);
-  const navigate = useNavigate()
   
 
-  const handleLogout = () => {
-    authContext.logout()
-    navigate('/login')
-  }
   const handleInputChange = (field, value) => {
     try{
       setFormData((prevData) => ({ ...prevData, [field]: value }));  
