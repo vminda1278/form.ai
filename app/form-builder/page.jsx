@@ -28,22 +28,29 @@ export default function FormBuilder() {
       type,
       properties: getDefaultProperties(type),
     }
-    //setFormComponents([...formComponents, newComponent])
+    setFormComponents([...formComponents, newComponent])
     setSelectedComponent(newComponent)
   }
-
+  /* For displaying the component properties */
   const getDefaultProperties = (type) => {
     switch (type) {
-      case "title":
-        return { title: "Form Title", subtitle: "Form description" }
-      case "text":
-        return { label: "Text Input", placeholder: "Enter text", required: false, helpText: "" }
-      case "select":
-        return { label: "Select Option", options: ["Option 1", "Option 2"], required: false, helpText: "" }
-      case "textarea":
-        return { label: "Textarea", placeholder: "Enter your message", rows: 4, required: false, helpText: "" }
-      case "button":
-        return { text: "Submit", type: "submit", variant: "default" }
+      case "FTTitle":
+        return {
+            'body': [
+                { type: 'FTTextInput', field: 'title', label: 'Title'},
+                { type: 'FTTextInput', field: 'subtitle', label: 'Sub Title'},
+                { type: 'FTButton', title: 'Submit', field: 'submit_button'}
+            ]
+        }
+      case "FTTextInput":
+        return {
+            'body': [
+                { type: 'FTTextInput', field: 'label', label: 'Enter Label'},
+                { type: 'FTSelect', label: 'Required', field: 'required', options:[{l:'No', k:'false'},
+                {l:'Yes', k:'true'}]},
+                { type: 'FTButton', title: 'Submit', field: 'submit_button'}
+            ]
+        }  
       default:
         return {}
     }
@@ -76,6 +83,7 @@ export default function FormBuilder() {
     navigator.clipboard.writeText(text)
   }
 
+  
   const renderComponent = (component) => {
     const { type, properties } = component
 

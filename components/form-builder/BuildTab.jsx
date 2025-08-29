@@ -15,11 +15,11 @@ import {
 } from "lucide-react"
 
 const componentTypes = [
-  { id: "title", name: "Title", icon: Type, description: "Add a title and subtitle" },
-  { id: "text", name: "Text Input", icon: FileText, description: "Single line text input" },
-  { id: "select", name: "Select", icon: List, description: "Dropdown selection" },
-  { id: "textarea", name: "Textarea", icon: MessageSquare, description: "Multi-line text input" },
-  { id: "button", name: "Button", icon: MousePointer, description: "Submit or action button" },
+  { id: "FTTitle", name: "Title", icon: Type, description: "Add a title and subtitle" },
+  { id: "FTTextInput", name: "Text Input", icon: FileText, description: "Single line text input" },
+  { id: "FTSelect", name: "Select", icon: List, description: "Dropdown selection" },
+  { id: "FTTextarea", name: "Textarea", icon: MessageSquare, description: "Multi-line text input" },
+  { id: "FTButton", name: "Button", icon: MousePointer, description: "Submit or action button" },
 ]
 
 export function BuildTab({
@@ -45,15 +45,9 @@ export function BuildTab({
       )
     }
     const { type, properties } = selectedComponent
-
-    const form = {
-        'body': [
-            { type: 'FTTitle',  field:'form_title', title: 'Financial Documents', subtitle: 'Bank transaction statement and other financial documents'},  
-            { type: 'FTButton', title: 'Submit', field: 'submit_button'}
-        ],
-    }
-    return CreateForm({'formJSON': form})
-    console.log("Rendering properties for:", selectedComponent)
+    //console.log(JSON.stringify(selectedComponent))
+    return CreateForm({'formJSON': properties})
+    //console.log("Rendering properties for:", selectedComponent)
 
   }
 

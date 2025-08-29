@@ -44,6 +44,7 @@ const CreateForm = ({ formJSON, isPreLoginForm = false, stack = 'vertical', data
     if(!isValid){
       return  
     }
+    console.log(formData)
     //setFormData({})
   }
 
@@ -421,7 +422,7 @@ const CreateForm = ({ formJSON, isPreLoginForm = false, stack = 'vertical', data
       params[field] = selectedValue
       const matchingOption = props.options.find(o => o.k === selectedValue);
       //console.log("In FTSelect - handleSelectChange - " + JSON.stringify(matchingOption))
-      params[props.label] = matchingOption && matchingOption.k ? matchingOption.l : '';
+      //params[props.label] = matchingOption && matchingOption.k ? matchingOption.l : '';
       //console.log("In FTSelect - handleSelectChange - " + JSON.stringify(params))
       setFormData((prevData) => ({ ...prevData, ...params }));      
     }
